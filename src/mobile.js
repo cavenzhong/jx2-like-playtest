@@ -1,29 +1,51 @@
+export function mobileLayout({width, height, left = 0, top = 0}) {
+  const compact = Math.min(width, height) <= 500 && Math.max(width, height) <= 1100;
+  const rotated = compact && height > width;
+  return {width, height, left, top, compact, rotated, gameWidth: rotated ? height : width, gameHeight: rotated ? width : height};
+}
+let mobileViewport = mobileLayout({width: 0, height: 0});
 export function setupMobile() {
   const root = document.documentElement;
   const update = () => {
-    const width = document.documentElement.clientWidth, height = document.documentElement.clientHeight;
-    const compact = Math.min(width, height) <= 500 && Math.max(width, height) <= 1100;
-    const rotated = compact && height > width;
+    const visual = window.visualViewport;
+    const useVisual = visual && Math.abs(visual.scale - 1) < .01;
+    mobileViewport = mobileLayout({
+      width: useVisual ? visual.width : root.clientWidth,
+      height: useVisual ? visual.height : root.clientHeight,
+      left: useVisual ? visual.offsetLeft : 0,
+      top: useVisual ? visual.offsetTop : 0
+    });
+    const {width, height, left, top, compact, rotated, gameWidth, gameHeight} = mobileViewport;
     root.classList.toggle('mobile-game', compact);
     root.classList.toggle('rotated-game', rotated);
     root.classList.toggle('short-game', compact && (rotated ? width : height) < 350);
-    root.style.setProperty('--game-width', (rotated ? height : width) + 'px');
-    root.style.setProperty('--game-height', (rotated ? width : height) + 'px');
+    root.style.setProperty('--game-width', gameWidth + 'px');
+    root.style.setProperty('--game-height', gameHeight + 'px');
+    for (const [key, value] of Object.entries({width, height, left, top})) root.style.setProperty('--viewport-' + key, value + 'px');
+    const cuts = {top, left, right: Math.max(0, root.clientWidth - left - width), bottom: Math.max(0, root.clientHeight - top - height)};
+    for (const [key, value] of Object.entries(cuts)) root.style.setProperty('--viewport-cut-' + key, value + 'px');
+    root.style.setProperty('--viewport-center-x', (left + width / 2) + 'px');
+    root.style.setProperty('--viewport-center-y', (top + height / 2) + 'px');
   };
   update();
   window.addEventListener('resize', update);
   window.visualViewport?.addEventListener('resize', update);
+  window.visualViewport?.addEventListener('scroll', update);
+  window.addEventListener('pageshow', () => { update(); setTimeout(update, 300); });
+  window.addEventListener('orientationchange', () => { update(); setTimeout(update, 300); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) update(); });
   // iOS can reject native orientation lock; the rotated layout remains playable.
   const lock = () => screen.orientation?.lock?.('landscape').catch(() => {});
   lock();
   document.addEventListener('pointerup', lock, {once: true});
   if ('serviceWorker' in navigator && location.protocol !== 'file:' && document.querySelector('link[rel="manifest"]')) {
-    navigator.serviceWorker.register(new URL('../sw.js', import.meta.url)).catch(() => {});
+    navigator.serviceWorker.register(new URL('../sw.js', import.meta.url), {updateViaCache: 'none'}).catch(() => {});
   }
 }
 
 export function gamePoint(x, y) {
-  return document.documentElement.classList.contains('rotated-game') ? {x: y, y: document.documentElement.clientWidth - x} : {x, y};
+  const {width, left, top, rotated} = mobileViewport;
+  return rotated ? {x: y - top, y: width - (x - left)} : {x: x - left, y: y - top};
 }
 
 let installOpen = false, installDismissed = false;

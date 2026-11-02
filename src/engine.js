@@ -1,4 +1,4 @@
-import { prices, tuning, counters, expeditionRules } from './rules.js';
+import { prices, tuning, counters, expeditionRules } from './rules.js?v=83da3ff56c3c';
 export function catalog(data) { return Object.fromEntries(data.items.map((i,n)=>[i.id,{...i,price:prices[n] || 0}])); }
 let serial=0;
 export function instance(id,x=0,y=0) { return {id,uid:'i'+Date.now()+'-'+serial++,x,y}; }

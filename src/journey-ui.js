@@ -1,4 +1,4 @@
-import {expeditionRules} from './rules.js';
+import {expeditionRules} from './rules.js?v=83da3ff56c3c';
 
 // Derive goals from completed steps, so a resumed or paused fight stays accurate.
 export function journeyGoals(run) {

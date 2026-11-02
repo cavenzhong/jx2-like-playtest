@@ -1,11 +1,11 @@
-import {itemData, region} from './data.js';
-import {renderWorldMap} from './world-map.js';
-import {catalog, fits, maxHp, createBattle, tick} from './engine.js';
-import {elementNames, describe, expeditionRules as rules, mapDevelopment, fragmentRecipes, rumors} from './rules.js';
-import {newWorld, upgrades, upgradeCost, forge, defaultBag, beginRun, planAdvance, runEnemies, rewardRun, collectLoot, recordExploration, BAG_SIZE, prepareItems, durabilityFor, fieldItem, packItem, wearEquipment, returnCost, beginReturn, canSettle, passageAt, crossPassage, encounterPosition, returnLeg, settleRun, sellItem, saleValue, fieldCount, itemName, nextMaps, speedCap, endpointChance, drawEndpoint, meetStoryNpc, availableItem, craftRecipe, recipeBonus, migrateWorld} from './expedition.js';
-import {itemArt, fighterArt, campArt, enemyItemArt} from './art.js';
-import {journeyGoals, tenStepProgress} from './journey-ui.js';
-import {setupMobile, gamePoint, isIphoneWeb, installView, installAction, installDialogOpen} from './mobile.js';
+import {itemData, region} from './data.js?v=83da3ff56c3c';
+import {renderWorldMap} from './world-map.js?v=83da3ff56c3c';
+import {catalog, fits, maxHp, createBattle, tick} from './engine.js?v=83da3ff56c3c';
+import {elementNames, describe, expeditionRules as rules, mapDevelopment, fragmentRecipes, rumors} from './rules.js?v=83da3ff56c3c';
+import {newWorld, upgrades, upgradeCost, forge, defaultBag, beginRun, planAdvance, runEnemies, rewardRun, collectLoot, recordExploration, BAG_SIZE, prepareItems, durabilityFor, fieldItem, packItem, wearEquipment, returnCost, beginReturn, canSettle, passageAt, crossPassage, encounterPosition, returnLeg, settleRun, sellItem, saleValue, fieldCount, itemName, nextMaps, speedCap, endpointChance, drawEndpoint, meetStoryNpc, availableItem, craftRecipe, recipeBonus, migrateWorld} from './expedition.js?v=83da3ff56c3c';
+import {itemArt, fighterArt, campArt, enemyItemArt} from './art.js?v=83da3ff56c3c';
+import {journeyGoals, tenStepProgress} from './journey-ui.js?v=83da3ff56c3c';
+import {setupMobile, gamePoint, isIphoneWeb, installView, installAction, installDialogOpen} from './mobile.js?v=83da3ff56c3c';
 
 setupMobile();
 

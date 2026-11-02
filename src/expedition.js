@@ -1,5 +1,5 @@
-import {freshWorld, instance, place, maxHp, encounter} from './engine.js';
-import {expeditionRules as rules, mapDevelopment, fragmentRecipes, notes} from './rules.js';
+import {freshWorld, instance, place, maxHp, encounter} from './engine.js?v=83da3ff56c3c';
+import {expeditionRules as rules, mapDevelopment, fragmentRecipes, notes} from './rules.js?v=83da3ff56c3c';
 
 export const BAG_SIZE = rules.bagSize;
 export const MAX_FIELD_ITEMS = rules.fieldLimit;
