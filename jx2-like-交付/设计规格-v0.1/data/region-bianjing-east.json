@@ -1,0 +1,304 @@
+{
+  "schemaVersion": "0.1",
+  "regionId": "bianjing_east",
+  "regionName": "汴京东郊",
+  "sourceOfTruth": "../../../docs/0.35-开拓与合并规则.md",
+  "legacyFields": {"probeReq": "deprecated: 0.35 endpoint development gates entry", "encounters.money": "deprecated: rewardRun determines income", "eventChoices": "deprecated", "steal": "descriptive only"},
+  "playerSchool": "wudang_daojia",
+  "contentStatus": "active-v0.1",
+  "officialBasis": [
+    "汴京是北宋江湖核心城市",
+    "武林盟与天阴教的正邪冲突",
+    "山河社稷图作为地图和龙脉线索",
+    "五行克制与阴属性",
+    "被动、主动、群体、洞察、偷窃行为标签"
+  ],
+  "points": [
+    {
+      "id": "bianjing",
+      "name": "汴京",
+      "type": "town",
+      "element": "none",
+      "x": 8,
+      "y": 6,
+      "state": "here",
+      "parent": null,
+      "probeReq": 0,
+      "sourceType": "officialBasis",
+      "role": ["start", "shop", "save", "backpack"]
+    },
+    {
+      "id": "chenliu",
+      "name": "陈留驿",
+      "type": "field",
+      "element": "water",
+      "x": 8,
+      "y": 4,
+      "state": "open",
+      "parent": "bianjing",
+      "probeReq": 0,
+      "sourceType": "prototypeOriginal",
+      "role": ["first_run", "intro", "rumor_source"],
+      "encounterPools": ["chenliu_wildlife", "road_bandit_scouts"]
+    },
+    {
+      "id": "yezhulin",
+      "name": "野猪林",
+      "type": "field",
+      "element": "wood",
+      "x": 8,
+      "y": 2,
+      "state": "hidden",
+      "parent": "chenliu",
+      "probeReq": 1,
+      "sourceType": "prototypeOriginal",
+      "role": ["first_reveal", "group_combat", "courier_clue"],
+      "encounterPools": ["yezhulin_boar_pack"]
+    },
+    {
+      "id": "zhuxian",
+      "name": "朱仙镇",
+      "type": "field",
+      "element": "water",
+      "x": 13,
+      "y": 6,
+      "state": "hidden",
+      "parent": "chenliu",
+      "probeReq": 2,
+      "sourceType": "adapted",
+      "role": ["trade_route", "second_branch", "water_counter"],
+      "encounterPools": ["road_bandit_scouts", "river_thieves"]
+    },
+    {
+      "id": "pomiao",
+      "name": "破庙",
+      "type": "event",
+      "element": "earth",
+      "x": 3,
+      "y": 2,
+      "state": "hidden",
+      "parent": "yezhulin",
+      "probeReq": 1,
+      "sourceType": "prototypeOriginal",
+      "role": ["event", "yin_clue", "courier_rescue"],
+      "encounterPools": ["pomiao_tianyin_runner"]
+    },
+    {
+      "id": "hedu",
+      "name": "河渡",
+      "type": "field",
+      "element": "water",
+      "x": 13,
+      "y": 8,
+      "state": "hidden",
+      "parent": "zhuxian",
+      "probeReq": 1,
+      "sourceType": "prototypeOriginal",
+      "role": ["short_run", "steal_teaching", "river_rumor"],
+      "encounterPools": ["river_thieves"]
+    },
+    {
+      "id": "heifengzhai",
+      "name": "黑风寨",
+      "type": "dungeon",
+      "element": "metal",
+      "x": 15,
+      "y": 4,
+      "state": "rumor",
+      "parent": "chenliu",
+      "probeReq": 3,
+      "sourceType": "adapted",
+      "role": ["bounty_target", "boss", "tianyin_outer_line"],
+      "encounterPools": ["heifengzhai_camp"]
+    }
+  ],
+  "roads": [
+    ["bianjing", "chenliu"],
+    ["chenliu", "yezhulin"],
+    ["chenliu", "zhuxian"],
+    ["yezhulin", "pomiao"],
+    ["zhuxian", "hedu"],
+    ["chenliu", "heifengzhai"]
+  ],
+  "revealContent": [
+    {
+      "trigger": {"pointId": "chenliu", "probeAtLeast": 1},
+      "reveal": ["yezhulin"],
+      "mapText": "林口有新砍的车辙，泥里混着血。",
+      "noteText": "有人先于你进入林中。"
+    },
+    {
+      "trigger": {"pointId": "yezhulin", "probeAtLeast": 1},
+      "reveal": ["pomiao"],
+      "mapText": "荒庙的香灰是冷的，灯芯却刚换过。",
+      "noteText": "黑色印泥不属于普通镖局。"
+    },
+    {
+      "trigger": {"pointId": "chenliu", "probeAtLeast": 2},
+      "reveal": ["zhuxian"],
+      "mapText": "商路向南折去，河风里有火油味。",
+      "noteText": "运图队曾在朱仙镇改道。"
+    },
+    {
+      "trigger": {"pointId": "zhuxian", "probeAtLeast": 1},
+      "reveal": ["hedu"],
+      "mapText": "渡船只剩半条缆，水面漂着断箭。",
+      "noteText": "有人从水路把货送向东边。"
+    },
+    {
+      "trigger": {"pointId": "chenliu", "probeAtLeast": 3},
+      "reveal": ["heifengzhai"],
+      "mapText": "无旗的寨门后，挂着倒写的黑字。",
+      "noteText": "马贼只是门，门后还有人。"
+    },
+    {
+      "trigger": {"itemId": "bounty_post_east_bandits", "runSuccess": true},
+      "reveal": ["heifengzhai"],
+      "mapText": "悬赏帖上的朱砂印与寨门黑字重合。",
+      "noteText": "目标确认：黑风寨。"
+    }
+  ],
+  "npcs": [
+    {
+      "id": "zhao_xingjian",
+      "name": "赵行简",
+      "role": "陈留驿丞",
+      "points": ["chenliu"],
+      "sourceType": "prototypeOriginal",
+      "dialogueTags": ["short_clue", "long_clue"]
+    },
+    {
+      "id": "han_xiaoyi",
+      "name": "韩小乙",
+      "role": "运图队脚夫",
+      "points": ["yezhulin", "pomiao"],
+      "sourceType": "prototypeOriginal",
+      "dialogueTags": ["blood_trail", "black_seal_clue"]
+    },
+    {
+      "id": "gao_shun",
+      "name": "高顺",
+      "role": "朱仙镇镖师",
+      "points": ["zhuxian"],
+      "sourceType": "prototypeOriginal",
+      "dialogueTags": ["trade_route", "river_route"]
+    },
+    {
+      "id": "shen_qingluo",
+      "name": "沈青萝",
+      "role": "武林盟传使",
+      "points": ["bianjing", "pomiao"],
+      "sourceType": "prototypeOriginal",
+      "dialogueTags": ["wulin_alliance", "map_fragment_preview"]
+    },
+    {
+      "id": "han_lie",
+      "name": "韩烈",
+      "role": "黑风寨首领",
+      "points": ["heifengzhai"],
+      "sourceType": "prototypeOriginal",
+      "dialogueTags": ["boss", "tianyin_outer_line"]
+    }
+  ],
+  "encounters": [
+    {
+      "id": "chenliu_wildlife",
+      "points": ["chenliu"],
+      "kind": "field",
+      "enemies": [
+        {"enemyId": "wild_boar", "min": 2, "max": 3},
+        {"enemyId": "wild_fox", "min": 0, "max": 1}
+      ],
+      "element": "earth",
+      "behaviors": ["passive", "group"],
+      "money": [20, 40],
+      "sourceType": "prototypeOriginal"
+    },
+    {
+      "id": "yezhulin_boar_pack",
+      "points": ["yezhulin"],
+      "kind": "field",
+      "enemies": [
+        {"enemyId": "boar_cub", "min": 2, "max": 3},
+        {"enemyId": "forest_ruffian", "min": 1, "max": 1}
+      ],
+      "element": "wood",
+      "behaviors": ["group", "aggressive"],
+      "money": [20, 40],
+      "sourceType": "prototypeOriginal"
+    },
+    {
+      "id": "road_bandit_scouts",
+      "points": ["chenliu", "zhuxian"],
+      "kind": "field",
+      "enemies": [
+        {"enemyId": "east_bandit", "min": 2, "max": 3},
+        {"enemyId": "bandit_scout", "min": 0, "max": 1}
+      ],
+      "element": "earth",
+      "behaviors": ["aggressive", "insight"],
+      "tags": ["bounty_target"],
+      "money": [20, 40],
+      "sourceType": "prototypeOriginal"
+    },
+    {
+      "id": "river_thieves",
+      "points": ["zhuxian", "hedu"],
+      "kind": "field",
+      "enemies": [
+        {"enemyId": "river_thief", "min": 2, "max": 2},
+        {"enemyId": "oil_thrower", "min": 1, "max": 1}
+      ],
+      "element": "fire",
+      "behaviors": ["steal", "aggressive"],
+      "money": [20, 40],
+      "sourceType": "prototypeOriginal"
+    },
+    {
+      "id": "pomiao_tianyin_runner",
+      "points": ["pomiao"],
+      "kind": "event",
+      "enemies": [
+        {"enemyId": "tianyin_runner", "min": 1, "max": 1},
+        {"enemyId": "black_mark_shadow", "min": 0, "max": 1}
+      ],
+      "element": "water",
+      "attribute": "yin",
+      "behaviors": ["insight", "aggressive"],
+      "money": [20, 40],
+      "eventChoices": ["search_altar", "chase_runner", "rescue_courier"],
+      "sourceType": "adapted"
+    },
+    {
+      "id": "heifengzhai_camp",
+      "points": ["heifengzhai"],
+      "kind": "dungeon",
+      "enemies": [
+        {"enemyId": "heifeng_swordsman", "min": 2, "max": 3},
+        {"enemyId": "heifeng_crossbowman", "min": 1, "max": 1}
+      ],
+      "element": "metal",
+      "behaviors": ["aggressive", "group", "insight"],
+      "money": [80, 120],
+      "bossId": "han_lie",
+      "bossSegment": "final",
+      "storyPreview": "东郊残页的线索与天阴教黑印同时出现。",
+      "sourceType": "adapted"
+    }
+  ],
+  "enemies": [
+    {"id": "wild_boar", "name": "野猪", "hp": 30, "damage": 4, "attackInterval": 1.5, "element": "earth", "behavior": "passive"},
+    {"id": "wild_fox", "name": "野狐", "hp": 24, "damage": 4, "attackInterval": 1.4, "element": "wood", "behavior": "passive"},
+    {"id": "boar_cub", "name": "野猪幼崽", "hp": 28, "damage": 4, "attackInterval": 1.5, "element": "wood", "behavior": "group"},
+    {"id": "forest_ruffian", "name": "山林喽啰", "hp": 34, "damage": 5, "attackInterval": 1.5, "element": "metal", "behavior": "aggressive"},
+    {"id": "east_bandit", "name": "东郊马贼", "hp": 32, "damage": 5, "attackInterval": 1.5, "element": "earth", "behavior": "aggressive", "tags": ["bounty_target", "bandit"]},
+    {"id": "bandit_scout", "name": "马贼斥候", "hp": 28, "damage": 4, "attackInterval": 1.3, "element": "metal", "behavior": "insight", "tags": ["bandit"]},
+    {"id": "river_thief", "name": "河道贼", "hp": 30, "damage": 4, "attackInterval": 1.5, "element": "water", "behavior": "steal", "tags": ["bandit"]},
+    {"id": "oil_thrower", "name": "火油手", "hp": 26, "damage": 5, "attackInterval": 1.6, "element": "fire", "behavior": "aggressive", "tags": ["bandit"]},
+    {"id": "tianyin_runner", "name": "天阴教跑腿者", "hp": 36, "damage": 5, "attackInterval": 1.5, "element": "water", "attribute": "yin", "behavior": "insight", "tags": ["tianyin"]},
+    {"id": "black_mark_shadow", "name": "黑印傀影", "hp": 30, "damage": 5, "attackInterval": 1.7, "element": "water", "attribute": "yin", "behavior": "aggressive", "tags": ["tianyin"]},
+    {"id": "heifeng_swordsman", "name": "黑风寨刀客", "hp": 38, "damage": 6, "attackInterval": 1.4, "element": "metal", "behavior": "aggressive", "tags": ["bandit"]},
+    {"id": "heifeng_crossbowman", "name": "黑风寨弩手", "hp": 32, "damage": 5, "attackInterval": 1.6, "element": "wood", "behavior": "group", "tags": ["bandit"]},
+    {"id": "han_lie", "name": "黑风寨首领·韩烈", "hp": 90, "damage": 6, "attackInterval": 1.3, "element": "metal", "behavior": "aggressive", "tags": ["bandit", "boss"], "phaseAtHpRatio": 0.5, "phaseEffect": "black_seal_guard_and_summon_runner"}
+  ]
+}
